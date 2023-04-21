@@ -1,0 +1,22 @@
+
+env:
+  browser: true
+  es2021: true
+  node: true
+
+extends: 
+ - 'airbnb-base'
+
+parserOptions:
+  ecmaVersion: latest
+
+rules:
+  no-console: 0
+  import/extensions:
+    - error
+    - ignorePackages
+    - js: always
+  import/no-extraneous-dependencies: 
+    - error
+    - devDependencies: true
+  no-underscore-dangle: [2, { "allow": ["__filename", "__dirname"] }]

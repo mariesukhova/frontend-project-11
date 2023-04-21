@@ -1,0 +1,56 @@
+# название
+name: Project test & build
+
+env:
+  CI: true
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# выполняемые действия
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      # Node versions list
+      matrix:
+        node-version: [18.x]
+    # запускаются по шагам
+    # name - название шага
+    # в github actions будет выводиться название шага, и процессы
+    steps:
+      # Check-out repository under GitHub workspace
+      # https://github.com/actions/checkout
+      - uses: actions/checkout@v2
+        # Step's name
+      - name: Use Node.js ${{ matrix.node-version }}
+        # Configures the node version used on GitHub-hosted runners
+        # https://github.com/actions/setup-node
+        uses: actions/setup-node@v2
+        # The Node.js version to configure
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install
+        run: make install
+        
+      - name: Lint
+        run: make lint
+
+      - name: Build 
+        run: npm run build
+
+      # - name: Deploy
+      #   uses: JamesIves/github-pages-deploy-action@3.7.1
+      #   with:
+      #     # в значение GITHUB_TOKEN помещается ссылка на ваш секрет в репозитории
+      #     # в данном случае его название KEY
+      #     GITHUB_TOKEN: ${{ secrets.KEY }}
+      #     BRANCH: gh-pages
+      #     FOLDER: public
+      #     CLEAN: true
