@@ -18,6 +18,29 @@ function loadData(url) {
     });
 }
 
+function checkUpdates(state) {
+  if (state.links.length) {
+    const currentPosts = state.posts;
+    const result = {};
+    state.links.forEach((link) => {
+      loadData(link)
+        .then((data) => {
+          currentPosts.forEach((post) => {
+            const { postLink } = post;
+            result[postLink] = true;
+          });
+          data.posts.forEach((post) => {
+            if (!result[post.postLink]) {
+              state.posts.unshift(post);
+            }
+          });
+        })
+        .catch((error) => console.log(error));
+    });
+  }
+  setTimeout(() => checkUpdates(state), 5000);
+}
+
 const app = async () => {
   const i18nInstance = i18next.createInstance();
 
@@ -76,23 +99,24 @@ const app = async () => {
 
   elements.rssForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const formData = e.target.url.value;
+    const url = e.target.url.value;
+    const formData = url.trim();
     const schema = yup.string().required().url().notOneOf(watchedState.links);
     schema.validate(formData)
-      .then(() => loadData(formData, watchedState)
-        .then((data) => {
-          watchedState.status = '';
-          watchedState.status = 'valid';
-          watchedState.links.push(formData);
-          watchedState.feeds.unshift(data.feeds);
-          data.posts.forEach((post) => {
-            watchedState.posts.push(post);
-          });
-        }))
+      .then(() => loadData(formData, watchedState))
+      .then((data) => {
+        watchedState.status = '';
+        watchedState.status = 'valid';
+        watchedState.links.unshift(formData);
+        watchedState.feeds.unshift(data.feeds);
+        watchedState.posts.unshift(...data.posts);
+      })
       .catch((error) => {
         console.log(error);
         handleError(error);
       });
   });
+
+  checkUpdates(watchedState);
 };
 export default app;
