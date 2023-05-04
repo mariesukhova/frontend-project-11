@@ -73,6 +73,8 @@ const app = async () => {
     links: [],
     feeds: [],
     posts: [],
+    openModal: '',
+    openedPosts: [],
   };
 
   const watchedState = generateWatchedState(state, elements, i18nInstance);
@@ -115,6 +117,12 @@ const app = async () => {
         console.log(error);
         handleError(error);
       });
+  });
+
+  elements.posts.addEventListener('click', (e) => {
+    const dataId = e.target.getAttribute('data-id');
+    watchedState.openModal = dataId;
+    watchedState.openedPosts.push(dataId);
   });
 
   checkUpdates(watchedState);
