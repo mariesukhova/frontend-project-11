@@ -109,12 +109,9 @@ function renderPosts(watchedState, elements) {
   }
 
   const ul = document.querySelector('.list-group-posts');
-  ul.replaceChildren();
-
-  watchedState.posts.forEach((post) => {
+  const lis = watchedState.posts.map((post) => {
     const li = document.createElement('li');
     li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
-    ul.prepend(li);
 
     const link = document.createElement('a');
     link.classList.add('fw-bold');
@@ -133,7 +130,10 @@ function renderPosts(watchedState, elements) {
     button.setAttribute('data-bs-target', '#modal');
     button.textContent = 'Просмотр';
     li.append(button);
+    return li;
   });
+
+  ul.replaceChildren(...lis);
 }
 
 export default function generateWatchedState(state, elements, i18nInst) {
