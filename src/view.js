@@ -136,6 +136,26 @@ function renderPosts(watchedState, elements) {
   ul.replaceChildren(...lis);
 }
 
+function renderModal(watchedState) {
+  const dataId = watchedState.openModal;
+  const relatedPost = watchedState.posts.filter((post) => post.postId === dataId)[0];
+  const { postTitle, postDescription, postLink } = relatedPost;
+  const modalTitle = document.querySelector('.modal-title');
+  modalTitle.textContent = postTitle;
+  const modalBody = document.querySelector('.modal-body');
+  modalBody.textContent = postDescription;
+  const readFully = document.querySelector('.full-article');
+  readFully.setAttribute('href', postLink);
+}
+
+function renderOpenedPosts(watchedState) {
+  watchedState.openedPosts.forEach((dataId) => {
+    const post = document.querySelector(`[data-id='${dataId}']`);
+    post.classList.remove('fw-bold');
+    post.classList.add('fw-normal');
+  });
+}
+
 export default function generateWatchedState(state, elements, i18nInst) {
   const watchedState = onChange(state, (path) => {
     switch (path) {
@@ -148,6 +168,10 @@ export default function generateWatchedState(state, elements, i18nInst) {
       case 'feeds': renderFeeds(watchedState, elements);
         break;
       case 'posts': renderPosts(watchedState, elements);
+        break;
+      case 'openModal': renderModal(watchedState);
+        break;
+      case 'openedPosts': renderOpenedPosts(watchedState);
         break;
       default:
     }
