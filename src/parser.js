@@ -27,8 +27,8 @@ export default function parser(htmlString) {
       const postDescription = post.querySelector('description').textContent;
       const postLink = post.querySelector('link').textContent;
 
-      data.posts.unshift({
-        postTitle, postDescription, postLink, postId,
+      data.posts.push({
+        postTitle, postDescription, postLink, postId, feedId,
       });
     });
 
