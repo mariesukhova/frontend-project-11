@@ -33,14 +33,11 @@ function renderTextInput(watchedState, elements, i18nInstance) {
       case 'notValid':
         p.textContent = i18nInstance.t('error.notValid');
         break;
-      case 'AxiosError':
+      case 'Network Error':
         p.textContent = i18nInstance.t('error.network');
         break;
       case 'ParserError':
         p.textContent = i18nInstance.t('error.notRss');
-        break;
-      case 'tooManyRequests':
-        p.textContent = i18nInstance.t('error.tooMany');
         break;
       default:
         p.textContent = i18nInstance.t('error.unknown');

@@ -9,10 +9,7 @@ import resources from './locales/index.js';
 function loadData(url) {
   const proxyUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=${url}`;
   return axios.get(proxyUrl)
-    .then((response) => {
-      if (response.data.status.http_code !== 200) throw new Error('tooManyRequests');
-      return parser(response.data.contents);
-    })
+    .then((response) => parser(response.data.contents))
     .catch((e) => {
       throw e;
     });

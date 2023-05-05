@@ -17,7 +17,6 @@ export default {
       notRss: 'RSS not valid',
       network: 'Network error',
       unknown: 'Unknown error',
-      tooMany: 'Too many requests',
     },
     success: 'RSS loaded successfully',
   },
