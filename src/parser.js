@@ -1,4 +1,16 @@
+/* eslint-disable no-param-reassign */
 import _ from 'lodash';
+
+function addElement(source) {
+  const id = _.uniqueId();
+  const title = source.querySelector('title').textContent;
+  const description = source.querySelector('description').textContent;
+  const link = source.querySelector('link').textContent;
+
+  return {
+    id, title, description, link,
+  };
+}
 
 export default function parser(htmlString) {
   const parse = new DOMParser();
@@ -6,30 +18,20 @@ export default function parser(htmlString) {
   const rootElement = parsedHtml.documentElement;
 
   if (rootElement.tagName === 'rss') {
-    const title = parsedHtml.querySelector('title').textContent;
-    const description = parsedHtml.querySelector('description').textContent;
-    const link = parsedHtml.querySelector('link').textContent;
-    const feedId = _.uniqueId();
-
     const data = {
       feeds: {},
       posts: [],
     };
 
-    data.feeds = {
-      title, description, link, feedId,
-    };
+    const newFeed = addElement(parsedHtml);
+    data.feeds = newFeed;
 
     const posts = parsedHtml.querySelectorAll('item');
     posts.forEach((post) => {
-      const postId = _.uniqueId();
-      const postTitle = post.querySelector('title').textContent;
-      const postDescription = post.querySelector('description').textContent;
-      const postLink = post.querySelector('link').textContent;
+      const newPost = addElement(post);
+      newPost.feedId = data.feeds.id;
 
-      data.posts.push({
-        postTitle, postDescription, postLink, postId, feedId,
-      });
+      data.posts.push(newPost);
     });
 
     return data;

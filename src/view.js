@@ -51,17 +51,17 @@ function createPost(post) {
 
   const link = document.createElement('a');
   link.classList.add('fw-bold');
-  link.setAttribute('href', post.postLink);
-  link.setAttribute('data-id', post.postId);
+  link.setAttribute('href', post.link);
+  link.setAttribute('data-id', post.id);
   link.setAttribute('target', '_blank');
   link.setAttribute('rel', 'noopener noreferrer');
-  link.textContent = post.postTitle;
+  link.textContent = post.title;
   li.append(link);
 
   const button = document.createElement('button');
   button.setAttribute('type', 'button');
   button.setAttribute('class', 'btn btn-outline-primary btn-sm');
-  button.setAttribute('data-id', post.postId);
+  button.setAttribute('data-id', post.id);
   button.setAttribute('data-bs-toggle', 'modal');
   button.setAttribute('data-bs-target', '#modal');
   button.textContent = 'Просмотр';
@@ -135,14 +135,14 @@ function renderPosts(watchedState, elements) {
 
 function renderModal(watchedState) {
   const dataId = watchedState.openModal;
-  const relatedPost = watchedState.posts.filter((post) => post.postId === dataId)[0];
-  const { postTitle, postDescription, postLink } = relatedPost;
+  const relatedPost = watchedState.posts.filter((post) => post.id === dataId)[0];
+  const { title, description, link } = relatedPost;
   const modalTitle = document.querySelector('.modal-title');
-  modalTitle.textContent = postTitle;
+  modalTitle.textContent = title;
   const modalBody = document.querySelector('.modal-body');
-  modalBody.textContent = postDescription;
+  modalBody.textContent = description;
   const readFully = document.querySelector('.full-article');
-  readFully.setAttribute('href', postLink);
+  readFully.setAttribute('href', link);
 }
 
 function renderOpenedPosts(watchedState) {
