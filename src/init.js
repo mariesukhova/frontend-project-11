@@ -38,6 +38,26 @@ function checkUpdates(state) {
   setTimeout(() => checkUpdates(state), 5000);
 }
 
+function handleError(error, state) {
+  switch (error.name) {
+    case 'ValidationError':
+      state.error = error.message;
+      state.status = 'in-valid';
+      break;
+    case 'AxiosError':
+      state.error = error.message;
+      state.status = 'failed';
+      break;
+    case 'Error':
+      state.error = error.message;
+      state.status = 'failed';
+      break;
+    default:
+      state.error = 'unknownError';
+      state.status = 'failed';
+  }
+}
+
 const app = async () => {
   const i18nInstance = i18next.createInstance();
 
@@ -76,26 +96,6 @@ const app = async () => {
 
   const watchedState = generateWatchedState(state, elements, i18nInstance);
 
-  function handleError(error) {
-    switch (error.name) {
-      case 'ValidationError':
-        watchedState.error = error.message;
-        watchedState.status = 'in-valid';
-        break;
-      case 'AxiosError':
-        watchedState.error = error.message;
-        watchedState.status = 'failed';
-        break;
-      case 'Error':
-        watchedState.error = error.message;
-        watchedState.status = 'failed';
-        break;
-      default:
-        watchedState.error = 'unknownError';
-        watchedState.status = 'failed';
-    }
-  }
-
   elements.rssForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const url = e.target.url.value;
@@ -111,8 +111,7 @@ const app = async () => {
         watchedState.posts.unshift(...data.posts);
       })
       .catch((error) => {
-        console.log(error);
-        handleError(error);
+        handleError(error, watchedState);
       });
   });
 
