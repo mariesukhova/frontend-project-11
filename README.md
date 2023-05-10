@@ -11,7 +11,7 @@ Rss Reader is a service for aggregating RSS feeds, with the help of which it is 
 $ git clone https://github.com/mariesikhova/frontend-project-11.git
 ```
 
-## Install 
+## Install https://ru.hexlet.io/lessons.rss
 
 ```sh
 $ make install
@@ -30,3 +30,4 @@ $ npx webpack serve
 [Click here to see a result](frontend-project-11-3lgi851id-mariesukhova.vercel.app)
 
 ![image](result.gif)
+
