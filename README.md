@@ -27,7 +27,7 @@ $ npx webpack serve
 3) Get a list of current articles & news
 4) Enjoy !
 
-[Click here to see a result](frontend-project-11-3lgi851id-mariesukhova.vercel.app)
+[Click here to see a result](https://frontend-project-11-teal-iota.vercel.app/)
 
 ![image](result.gif)
 
