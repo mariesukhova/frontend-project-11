@@ -11,7 +11,7 @@ Rss Reader is a service for aggregating RSS feeds, with the help of which it is 
 $ git clone https://github.com/mariesikhova/frontend-project-11.git
 ```
 
-## Install https://ru.hexlet.io/lessons.rss
+## Install
 
 ```sh
 $ make install
